@@ -1,0 +1,409 @@
+var currentScene = 0;
+var score = 0;
+var startTime;
+frameRate(1);
+var xEnemy = 200;
+var yEnemy = 200;
+var xCharacter = 200;
+var yCharacter = 200;
+var xGun = 200;
+
+// Mason's Bitmoji
+var drawBitmoji= function(bitmojiX,bitmojiY,bitmojiHeight){
+noStroke();
+fill(255,224,189);//skin color
+ellipse(bitmojiX+(bitmojiHeight/150*100),bitmojiY+(bitmojiHeight/150*100),bitmojiHeight/150*84,bitmojiHeight/150*100); // head
+fill(235, 117, 117);
+arc(bitmojiX+(bitmojiHeight/150*54),bitmojiY+(bitmojiHeight/150*135),bitmojiHeight/150*28,bitmojiHeight/150*55,0,361); //left cheek
+arc(bitmojiX+(bitmojiHeight/150*146),bitmojiY+(bitmojiHeight/150*135),bitmojiHeight/150*28,bitmojiHeight/150*55,0,361); //right cheek
+fill(160,82,45);
+quad(bitmojiX+(bitmojiHeight/150*56),bitmojiY+(bitmojiHeight/150*100),bitmojiX+(bitmojiHeight/150*63),bitmojiY+(bitmojiHeight/150*68),bitmojiX+(bitmojiHeight/150*90),bitmojiY+(bitmojiHeight/150*50),bitmojiX+(bitmojiHeight/150*70),bitmojiY+(bitmojiHeight/150*99));//left hair
+quad(bitmojiX+(bitmojiHeight/150*129),bitmojiY+(bitmojiHeight/150*96),bitmojiX+(bitmojiHeight/150*117),bitmojiY+(bitmojiHeight/150*68),bitmojiX+(bitmojiHeight/150*130),bitmojiY+(bitmojiHeight/150*54),bitmojiX+(bitmojiHeight/150*143),bitmojiY+(bitmojiHeight/150*99));//right hair
+ellipse(bitmojiX+(bitmojiHeight/150*99),bitmojiY+(bitmojiHeight/150*65),bitmojiHeight/150*77,bitmojiHeight/150*40);
+fill(0, 0, 0);
+arc(bitmojiX+(bitmojiHeight/150*99),bitmojiY+(bitmojiHeight/150*69),bitmojiHeight/150*78,bitmojiHeight/150*56,182,359);//back of hat
+fill(160,82,45);
+arc(bitmojiX+(bitmojiHeight/150*99),bitmojiY+(bitmojiHeight/150*79),bitmojiHeight/150*66,bitmojiHeight/150*43,182,359); //front of hair
+fill(0, 0, 0);
+arc(bitmojiX+(bitmojiHeight/150*100),bitmojiY+(bitmojiHeight/150*74),bitmojiHeight/150*65,bitmojiHeight/150*42,182,359);//front of hat
+fill(255, 255, 255);
+ellipse(bitmojiX+(bitmojiHeight/150*86),bitmojiY+(bitmojiHeight/150*100),bitmojiHeight/150*16,bitmojiHeight/150*12);//left eye
+ellipse(bitmojiX+(bitmojiHeight/150*115),bitmojiY+(bitmojiHeight/150*100),bitmojiHeight/150*16,bitmojiHeight/150*12);//right eye
+fill(125, 173, 135);
+ellipse(bitmojiX+(bitmojiHeight/150*86),bitmojiY+(bitmojiHeight/150*102),bitmojiHeight/150*6,bitmojiHeight/150*6);//left pupil
+ellipse(bitmojiX+(bitmojiHeight/150*115),bitmojiY+(bitmojiHeight/150*102),bitmojiHeight/150*6,bitmojiHeight/150*6);//right pupil
+stroke(0, 0, 0);
+fill(255,224,189);
+bezier(bitmojiX+(bitmojiHeight/150*100),bitmojiY+(bitmojiHeight/150*100),bitmojiX+(bitmojiHeight/150*121),bitmojiY+(bitmojiHeight/150*122),bitmojiX+(bitmojiHeight/150*92), bitmojiY+(bitmojiHeight/150*120),bitmojiX+(bitmojiHeight/150*96),bitmojiY+(bitmojiHeight/150*115));//nose
+fill(255, 255, 255);//smile
+arc(bitmojiX+(bitmojiHeight/150*101),bitmojiY+(bitmojiHeight/150*126),bitmojiHeight/150*30,bitmojiHeight/150*13,1,180);//mouth
+line(bitmojiX+(bitmojiHeight/150*86),bitmojiY+(bitmojiHeight/150*126),bitmojiX+(bitmojiHeight/150*116),bitmojiY+(bitmojiHeight/150*126));//top of mouth
+fill(0, 0, 0);
+rect(bitmojiX+(bitmojiHeight/150*50),bitmojiY+(bitmojiHeight/150*156),bitmojiHeight/150*98,bitmojiHeight/150*49);//shirt
+fill(255,224,189);
+arc(bitmojiX+(bitmojiHeight/150*100),bitmojiY+(bitmojiHeight/150*155),bitmojiHeight/150*54,bitmojiHeight/150*46,2,180);//bottom of neck
+noStroke();
+ellipse(bitmojiX+(bitmojiHeight/150*100),bitmojiY+(bitmojiHeight/150*156),bitmojiHeight/150*37,bitmojiHeight/150*43);//neck
+fill(255, 255, 255);
+textSize(bitmojiHeight/150*23);
+text("MS", bitmojiX+(bitmojiHeight/150*82),bitmojiY+(bitmojiHeight/150*183),bitmojiHeight/150*30,bitmojiHeight/150*55);//words on shirt
+};
+
+//Lucas's bitmoji
+var drawRocha = function (bodyX,bodyY,bodyHeight) {
+
+rectMode(CORNER);
+noStroke();
+fill (240, 182, 135);
+ellipse(bodyX-(bodyHeight/100*1), bodyY-(bodyHeight/100*0), bodyHeight/100*92, bodyHeight/100*120);
+
+fill(255, 0, 0);
+rect(bodyX-(bodyHeight/100*44), bodyY+(bodyHeight/100*73), (bodyHeight/100*92), (bodyHeight/100*134));
+ellipse (bodyX-(bodyHeight/100*44), bodyY+(bodyHeight/100*92), (bodyHeight/100*41), (bodyHeight/100*37));
+ellipse (bodyX+(bodyHeight/100*48), bodyY+(bodyHeight/100*92), (bodyHeight/100*41), (bodyHeight/100*37));
+
+noStroke();
+fill (240, 182, 135);
+rect(bodyX-(bodyHeight/100*24), bodyY+(bodyHeight/100*50), (bodyHeight/100*50), (bodyHeight/100*29));
+arc(bodyX+(bodyHeight/100*1), bodyY+(bodyHeight/100*76), (bodyHeight/100*50), 
+(bodyHeight/100*46), -359, -181);
+ 
+fill (0, 0, 0);
+rect(bodyX-(bodyHeight/100*33), bodyY-(bodyHeight/100*54), (bodyHeight/100*65), (bodyHeight/100*20));
+
+triangle(bodyX-(bodyHeight/100*53), bodyY-(bodyHeight/100*25), bodyX-(bodyHeight/100*46), bodyY+(bodyHeight/100*6), bodyX-(bodyHeight/100*5), bodyY-(bodyHeight/100*61));
+triangle(bodyX+(bodyHeight/100*58), bodyY-(bodyHeight/100*20), bodyX+(bodyHeight/100*45), bodyY+(bodyHeight/100*7), bodyX+(bodyHeight/100*9), bodyY-(bodyHeight/100*61));
+
+fill (240, 182, 135);
+arc(bodyX+(bodyHeight/100*39), bodyY+(bodyHeight/100*8), (bodyHeight/100*22), (bodyHeight/100*22), -94, 89);
+arc(bodyX-(bodyHeight/100*40), bodyY+(bodyHeight/100*8), (bodyHeight/100*20),(bodyHeight/100*22), -274, -92);
+
+
+fill(0, 0, 0);
+ellipse (bodyX-(bodyHeight/100*46), bodyY-(bodyHeight/100*33), (bodyHeight/100*20), (bodyHeight/100*20));
+ellipse (bodyX-(bodyHeight/100*37), bodyY-(bodyHeight/100*46),(bodyHeight/100*20), (bodyHeight/100*20));
+ellipse (bodyX-(bodyHeight/100*22), bodyY-(bodyHeight/100*53), (bodyHeight/100*20), (bodyHeight/100*20));
+ellipse (bodyX-(bodyHeight/100*5), bodyY-(bodyHeight/100*55), (bodyHeight/100*20), (bodyHeight/100*20));
+ellipse (bodyX+(bodyHeight/100*13), bodyY-(bodyHeight/100*55), (bodyHeight/100*20), (bodyHeight/100*20));
+ellipse (bodyX+(bodyHeight/100*30), bodyY-(bodyHeight/100*48), (bodyHeight/100*20), (bodyHeight/100*20));
+ellipse (bodyX+(bodyHeight/100*42), bodyY-(bodyHeight/100*40), (bodyHeight/100*20), (bodyHeight/100*20));
+ellipse (bodyX+(bodyHeight/100*50), bodyY-(bodyHeight/100*26), (bodyHeight/100*20), (bodyHeight/100*20));
+
+fill(255, 255, 255);
+ellipse (bodyX-(bodyHeight/100*17), bodyY, (bodyHeight/100*19), (bodyHeight/100*9));
+fill(0, 0, 0);
+ellipse (bodyX-(bodyHeight/100*17), bodyY, (bodyHeight/100*8), (bodyHeight/100*8));
+
+fill(255, 255, 255);
+ellipse (bodyX+(bodyHeight/100*16), bodyY, (bodyHeight/100*19), (bodyHeight/100*9));
+fill(0, 0, 0);
+ellipse (bodyX+(bodyHeight/100*16), bodyY, (bodyHeight/100*8), (bodyHeight/100*8));
+
+rect(bodyX-(bodyHeight/100*28),bodyY-(bodyHeight/100*10),(bodyHeight/100*22),(bodyHeight/100*2));
+rect(bodyX+(bodyHeight/100*5),bodyY-(bodyHeight/100*10),(bodyHeight/100*22),(bodyHeight/100*2));
+
+
+ellipse(bodyX+(bodyHeight/100*1), bodyY+(bodyHeight/100*57), (bodyHeight/100*43), (bodyHeight/100*16));
+triangle(bodyX-(bodyHeight/100*19), bodyY+(bodyHeight/100*60), bodyX-(bodyHeight/100*43), bodyY+(bodyHeight/100*24), bodyX-(bodyHeight/100*4), bodyY+(bodyHeight/100*51));
+triangle(bodyX-(bodyHeight/100*2), bodyY+(bodyHeight/100*60), bodyX+(bodyHeight/100*43), bodyY+(bodyHeight/100*24), bodyX+(bodyHeight/100*23), bodyY+(bodyHeight/100*57));
+rect(bodyX-(bodyHeight/100*10),bodyY+(bodyHeight/100*51),(bodyHeight/100*31),(bodyHeight/100*-3));
+
+triangle(bodyX-(bodyHeight/100*22), bodyY+(bodyHeight/100*28), bodyX+(bodyHeight/100*1), bodyY+(bodyHeight/100*24), bodyX+(bodyHeight/100*23), bodyY+(bodyHeight/100*28));
+
+
+fill(255, 255, 255);
+arc(bodyX,bodyY+(bodyHeight/100*32),(bodyHeight/100*31),(bodyHeight/100*19), -4, 185);
+
+fill(186, 186, 186);
+rect (bodyX-(bodyHeight/100*48),bodyY+(bodyHeight/100*13),(bodyHeight/100*5),(bodyHeight/100*5));
+rect (bodyX+(bodyHeight/100*44),bodyY+(bodyHeight/100*13),(bodyHeight/100*5),(bodyHeight/100*5));
+
+
+stroke(255, 0, 0);
+strokeWeight(bodyHeight/100*35);
+line (bodyX-(bodyHeight/100*67),bodyY+(bodyHeight/100*202),bodyX-(bodyHeight/100*51),bodyY+(bodyHeight/100*94));
+line (bodyX+(bodyHeight/100*80),bodyY+(bodyHeight/100*202),bodyX+(bodyHeight/100*52),bodyY+(bodyHeight/100*94));
+
+textSize(bodyHeight/100*32);
+text("LR",bodyX-(bodyHeight/100*18), bodyY+(bodyHeight/100*131), bodyX-(bodyHeight/100*160), bodyY-(bodyHeight/100*160));
+noStroke();
+strokeWeight(1);
+
+};
+
+
+var drawEnemy = function (xEnemy,yEnemy){
+     fill(255, 0, 0);
+    image(getImage("avatars/robot_male_1"),xEnemy, yEnemy, 48, 51);
+};
+
+/* Copy in the Khan Button class */
+var Button = function(config) {
+    this.x = config.x || 0;
+    this.y = config.y || 0;
+    this.width = config.width || 150;
+    this.height = config.height || 50;
+    this.label = config.label || "Click";
+    this.onClick = config.onClick || function() {};
+};
+
+Button.prototype.draw = function() {
+    fill(157, 200, 207);
+    rect(this.x, this.y, this.width, this.height, 5);
+    fill(0, 0, 0);
+    textSize(19);
+    textAlign(LEFT, TOP);
+    text(this.label, this.x+10, this.y+this.height/4);
+};
+
+Button.prototype.isMouseInside = function() {
+    return mouseX > this.x &&
+           mouseX < (this.x + this.width) &&
+           mouseY > this.y &&
+           mouseY < (this.y + this.height);
+};
+
+Button.prototype.handleMouseClick = function() {
+    if (this.isMouseInside()) {
+        this.onClick();
+    }
+};
+
+var startButton = new Button({
+    x: 100,
+    y: 300,
+    label: "Start!",
+    onClick: function() {
+        currentScene = 1;
+    }
+});
+
+
+mouseClicked = function() {
+    if (currentScene === 0)
+    {
+    startButton.handleMouseClick();
+    }
+    // Check for score in game 
+    else if (currentScene === 1) // 1 means in the first game scene 
+    {
+        if (mouseX > xEnemy && mouseX < xEnemy + 60 && mouseY > yEnemy && mouseY < yEnemy + 60)
+     {
+        score++;
+     }
+}
+};
+
+var drawCharacterLeft = function (xCharacter,yCharacter){
+    stroke(255, 229, 156); //neck
+    strokeWeight(33);
+    line(xCharacter+15,271,xCharacter+6,288);
+    
+    fill(0, 0, 0); //body
+    noStroke();
+    rect(xCharacter-26,420,53,-119);
+    ellipse(xCharacter+0.5,300,53,53);
+    
+    stroke(255, 229, 156); //arm
+    strokeWeight(25);
+    line(xCharacter+58,328,xCharacter+6,296);
+    strokeWeight(9);
+    line(xCharacter+66,328,xCharacter+55,296);
+    line(xCharacter+46,328,xCharacter+55,296);
+   
+    noStroke(); //shoulder sleeve
+    fill(0, 0, 0);
+    ellipse(xCharacter+6,296,26,26);
+    stroke(0, 0, 0);
+    strokeWeight(12);
+    line(xCharacter+19,291,xCharacter-10,327);
+
+     
+    fill(255, 229, 156); //head
+    stroke(255, 229, 156); 
+    strokeWeight(61);
+    line(xCharacter+29,236,xCharacter+24,247);
+    
+};
+
+
+var drawCharacterRight = function (xCharacter,yCharacter){
+    
+    noStroke(); //gun
+    fill(71, 65, 65);
+    quad(xCharacter-24, 285, xCharacter-85, 280, xCharacter-85, 289, xCharacter-31,        303);
+    fill(0, 0, 0);
+    quad(xCharacter-68, 285, xCharacter-83, 283, xCharacter-83, 291, xCharacter-67,        295);
+   
+    stroke(255, 229, 156); //neck
+    strokeWeight(33);
+    line(xCharacter-15,271,xCharacter-6,288);
+    
+    fill(0, 0, 0); //body
+    noStroke();
+    rect(xCharacter-26,420,53,-119);
+    ellipse(xCharacter+0.5,300,53,53);
+    
+    stroke(255, 229, 156); //arm
+    strokeWeight(25);
+    line(xCharacter-58,328,xCharacter-6,296);
+    strokeWeight(9);
+    line(xCharacter-66,328,xCharacter-55,296);
+    line(xCharacter-46,328,xCharacter-55,296);
+   
+    noStroke(); //shoulder sleeve
+    fill(0, 0, 0);
+    ellipse(xCharacter-6,296,26,26);
+    stroke(0, 0, 0);
+    strokeWeight(12);
+    line(xCharacter-19,291,xCharacter+10,327);
+     
+    fill(255, 229, 156); //head
+    stroke(255, 229, 156); 
+    strokeWeight(61);
+    line(xCharacter-29,236,xCharacter-24,247);
+    
+};
+
+var drawGunLeft = function (xGun){
+    
+    stroke(255, 229, 156);
+    strokeWeight(11);
+    line(xGun-10,333,xGun+73,290);
+    
+    noStroke(); //gun
+    fill(71, 65, 65);
+    quad(xGun+24, 285, xGun+85, 280, xGun+85, 289, xGun+31,303);
+    fill(0, 0, 0);
+    quad(xGun+68, 285, xGun+83, 283, xGun+83, 291, xGun+67,295);
+};
+
+
+
+var drawGunRight = function (xGun){
+    
+    stroke(255, 229, 156);
+    strokeWeight(11);
+    line(xGun+10,333,xGun-73,290);
+    
+    noStroke(); //gun
+    fill(71, 65, 65);
+    quad(xGun-24, 285, xGun-85, 280, xGun-85, 289, xGun-31,303);
+    fill(0, 0, 0);
+    quad(xGun-68, 285, xGun-83, 283, xGun-83, 291, xGun-67,295);
+};
+
+
+var drawBurst = function (xBurst){
+    
+    noStroke(); 
+    fill(255, 0, 0);        //dark orange layer
+    
+    ellipse(xBurst+82,286,8,8);//top triangle
+    stroke(255, 0, 0);
+    strokeWeight(3);
+    line(xBurst+95,273,xBurst+83.9,281);
+    line(xBurst+94,274,xBurst+84.6,288);
+    
+    line(xBurst+69,273,xBurst+80.0,281);
+    line(xBurst+69,274,xBurst+79.7,288);
+    
+   //bottom triangle
+    line(xBurst+95,303,xBurst+85.0,290);
+    line(xBurst+96,304,xBurst+78.7,290);
+    line(xBurst+86,282,xBurst+81.2,290);
+    
+    line(xBurst+73,304,xBurst+82.5,290);
+    line(xBurst+73,304,xBurst+78.7,292);
+    line(xBurst+86,282,xBurst+81.2,290);
+    
+};
+
+
+
+ var unpause = true;
+ 
+ draw = function() {
+     background(247, 247, 247);
+     if (unpause){
+         if(mouseX < 200){
+           drawGunLeft(mouseX,mouseY);
+           drawCharacterLeft(mouseX,mouseY);
+         }   
+         if(mouseX >= 200){
+           drawGunRight(mouseX,mouseY);
+           drawCharacterRight(mouseX,mouseY);
+       
+         } 
+     }
+     
+     
+
+};
+
+
+var splashScreen = function ()
+{
+    background(235, 117, 117);
+    drawBitmoji(40,128,113);
+    drawRocha(288,196,44);
+    startButton.draw();
+    textSize(33);
+    fill(255, 255, 255);
+    text("Third Person Shooter!", 46, 54);
+    textSize(18);
+    text("By: Mason Santos and Lucas Rocha", 60, 114);
+};
+
+
+var playGame = function () {
+    background(255, 255, 255);
+    xEnemy = round(random(20,380));
+    yEnemy = round(random(20,380));
+    drawEnemy(xEnemy, yEnemy, 50);
+    text ("Score: "+ score, 100, 30);
+    if (unpause){
+         if(mouseX < 200){
+           drawGunLeft(mouseX,mouseY);
+           drawCharacterLeft(mouseX,mouseY);
+         }   
+         if(mouseX >= 200){
+           drawGunRight(mouseX,mouseY);
+           drawCharacterRight(mouseX,mouseY);
+         } 
+    }
+};
+
+var deathScreen = function ()
+{
+    background(222, 42, 42);
+    fill(255, 255, 255);
+    textSize(30);
+    text ("Score: "+ score, 50, 88);
+    textSize(32);
+    fill(0, 0, 0);
+    text ("You Died!", 50, 200);
+   
+};
+
+
+var endScreen = function ()
+{
+    background(235, 174, 99);
+    fill(255, 255, 255);
+    textSize(30);
+    text ("Score: "+ score, 50, 88);
+    textSize(32);
+    text ("Thank you for playing!", 50, 200);
+   
+};
+
+var draw = function() {
+    if (currentScene === 0) {splashScreen();}
+    else if (currentScene === 1) {playGame();}
+    if (round((millis() - startTime)/1000) >= 120){
+        
+        {endScreen();}
+        
+    }
+};
