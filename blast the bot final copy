@@ -338,11 +338,11 @@ var playGame = function ()
     drawHealthBar();
     if (millis() % 100 === 0){ 
         xEnemy = round(random(20,380)); // enemy is drawn in random x and y locations
-        yEnemy = round(random(20,380));
+        yEnemy = round(random(20,210));
     }
     else if (millis() % 50 === 0 && health === 30){ // enemy moves faster at 30 health and below
         xEnemy = round(random(20,380)); 
-        yEnemy = round(random(20,380));
+        yEnemy = round(random(20,210));
     }
     if (unpause){
          if(mouseX < 200){ // when game is running, draw the character in correct position. if mouse is on the left or right side, draw character facing opposite direction.
